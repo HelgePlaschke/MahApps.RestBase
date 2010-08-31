@@ -1,0 +1,10 @@
+D:\Code\mahtweetsWP7\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\ResolveAssemblyReference.cache
+D:\Code\mahtweetsWP7\hammock\bin\net40\Hammock.WindowsPhone.dll
+D:\Code\mahtweetsWP7\hammock\bin\net40\Hammock.WindowsPhone.pdb
+D:\Code\mahtweetsWP7\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\Hammock.WindowsPhone.dll
+D:\Code\mahtweetsWP7\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\Hammock.WindowsPhone.pdb
+D:\Code\MahAppsRestBase\hammock\bin\net40\Hammock.WindowsPhone.dll
+D:\Code\MahAppsRestBase\hammock\bin\net40\Hammock.WindowsPhone.pdb
+D:\Code\MahAppsRestBase\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\ResolveAssemblyReference.cache
+D:\Code\MahAppsRestBase\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\Hammock.WindowsPhone.dll
+D:\Code\MahAppsRestBase\hammock\src\net40\Hammock.WindowsPhone\obj\Debug\Hammock.WindowsPhone.pdb
