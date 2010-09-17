@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
 using System.Text.RegularExpressions;
 using Hammock;
 using Hammock.Authentication.OAuth;
@@ -83,7 +81,9 @@ namespace MahApps.RESTBase
 
             Client = new RestClient
             {
+#if SILVERLIGHT
                 HasElevatedPermissions = true,
+#endif
                 Authority = Authority,
                 VersionPath = Version
             };
