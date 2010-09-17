@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahApps.RESTBase", "MahApps.RESTBase.csproj", "{FA476F57-6E27-493D-875C-8F2671DF7411}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hammock.WindowsPhone", "hammock\src\net40\Hammock.WindowsPhone\Hammock.WindowsPhone.csproj", "{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahApps.RESTBase.WP7", "MahApps.RESTBase.WP7.csproj", "{FA476F57-6E27-493D-875C-8F2671DF7411}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,12 +16,6 @@ Global
 		{FA476F57-6E27-493D-875C-8F2671DF7411}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA476F57-6E27-493D-875C-8F2671DF7411}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA476F57-6E27-493D-875C-8F2671DF7411}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.ClientProfiles|Any CPU.ActiveCfg = ClientProfiles|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.ClientProfiles|Any CPU.Build.0 = ClientProfiles|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3059FD1C-4B4B-4460-A0D4-53C84CCE6CAC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
