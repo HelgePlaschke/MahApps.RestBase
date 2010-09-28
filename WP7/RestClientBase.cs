@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Hammock;
+using Hammock.Authentication;
+using Hammock.Authentication.Basic;
 using Hammock.Authentication.OAuth;
 using Hammock.Web;
 
@@ -12,6 +14,7 @@ namespace MahApps.RESTBase
         public IRestClient Client { get; set; }
 
         public OAuthCredentials Credentials { get; set; }
+        public BasicAuthCredentials BasicCredentials { get; set; }
 
         public String Authority = "";
         public String Version = "";
@@ -36,10 +39,11 @@ namespace MahApps.RESTBase
 
         private void EndGetRequestUrl(RestRequest request, RestResponse response, object userState)
         {
+            
             Regex r = new Regex("oauth_token=([^&.]*)&oauth_token_secret=([^&.]*)");
             var match = r.Match(response.Content);
-            Credentials.Token = match.Groups[1].Value;
-            Credentials.TokenSecret = match.Groups[2].Value;
+            ((OAuthCredentials)Credentials).Token = match.Groups[1].Value;
+            ((OAuthCredentials)Credentials).TokenSecret = match.Groups[2].Value;
 
             RequestUrlCallback(request, response, String.Format("{0}{1}?{2}", OAuthBase, TokenAuthUrl, response.Content));
         }
@@ -52,7 +56,7 @@ namespace MahApps.RESTBase
         public void BeginGetAccessToken(String Verifier, AccessTokenCallbackDelegate callback)
         {
             AccessTokenCallback = callback;
-            this.Credentials.Type = OAuthType.AccessToken;
+            Credentials.Type = OAuthType.AccessToken;
             Credentials.Verifier = Verifier.Trim();
 
             BeginRequest(TokenAccessUrl, EndGetAccessToken);
@@ -75,9 +79,9 @@ namespace MahApps.RESTBase
 
         public void SetOAuthToken(Credentials C)
         {
-            this.Credentials.Token = C.OAuthToken;
-            this.Credentials.TokenSecret = C.OAuthTokenSecret;
-            this.Credentials.Type = OAuthType.ProtectedResource;
+            Credentials.Token = C.OAuthToken;
+            Credentials.TokenSecret = C.OAuthTokenSecret;
+            Credentials.Type = OAuthType.ProtectedResource;
 
             Client = new RestClient
             {
@@ -98,10 +102,13 @@ namespace MahApps.RESTBase
         {
             RestRequest request = new RestRequest
             {
-                Credentials = Credentials,
                 Path = Path,
                 Method = Method
             };
+
+            if (Credentials != null)
+                request.Credentials = Credentials;
+
             if (Parameters != null)
                 foreach (var p in Parameters)
                 {
