@@ -103,7 +103,13 @@ namespace MahApps.RESTBase
             BeginRequest(Path, null, WebMethod.Post, callback);
         }
 
-        public void BeginRequest(String Path, Dictionary<String, String> Parameters, WebMethod Method,
+        public void BeginRequest(String Path, Dictionary<String, String> Parameters,  WebMethod Method,
+                                 RestCallback callback)
+        {
+            BeginRequest(Path, Parameters, null, Method, callback);
+        }
+
+        public void BeginRequest(String Path, Dictionary<String, String> Parameters, Dictionary<String, File> Files, WebMethod Method,
                                  RestCallback callback)
         {
             var request = new RestRequest
@@ -111,6 +117,12 @@ namespace MahApps.RESTBase
                                   Path = Path,
                                   Method = Method
                               };
+
+            if (Files != null)
+            {
+                foreach (var f in Files)
+                    request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath);
+            }
 
             if (Credentials != null)
                 request.Credentials = Credentials;
@@ -122,6 +134,17 @@ namespace MahApps.RESTBase
                 }
 
             Client.BeginRequest(request, callback);
+        }
+    }
+
+    public class File
+    {
+        public String FilePath;
+        public String FileName;
+        public File (String filePath, String fileName)
+        {
+            FilePath = filePath;
+            FileName = fileName;
         }
     }
 }
