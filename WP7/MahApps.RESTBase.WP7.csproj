@@ -42,10 +42,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hammock.WindowsPhone, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>D:\Code\MahAppsRestBase\Lib\WP7\Hammock.WindowsPhone.dll</HintPath>
+      <HintPath>..\Lib\WP7\Hammock.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib.WindowsPhone, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>D:\Code\MahAppsRestBase\Lib\WP7\ICSharpCode.SharpZipLib.WindowsPhone.dll</HintPath>
+      <HintPath>..\Lib\WP7\ICSharpCode.SharpZipLib.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System.Windows" />

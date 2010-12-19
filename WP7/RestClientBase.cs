@@ -8,7 +8,7 @@ using Hammock.Web;
 
 namespace MahApps.RESTBase
 {
-    public class RestClientBase
+    public class RestClientBase 
     {
         #region Delegates
 
