@@ -9,7 +9,7 @@ using MahApps.RESTBase.Delegates;
 
 namespace MahApps.RESTBase
 {
-    public class RestClientBase 
+    public class RestClientBase : IRestClientBase
     {
         #region Delegates
 

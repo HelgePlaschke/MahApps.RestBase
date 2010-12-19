@@ -53,6 +53,9 @@
     <Compile Include="..\WP7\File.cs">
       <Link>File.cs</Link>
     </Compile>
+    <Compile Include="..\WP7\IRestClientBase.cs">
+      <Link>IRestClientBase.cs</Link>
+    </Compile>
     <Compile Include="..\WP7\RestClientBase.cs">
       <Link>RestClientBase.cs</Link>
     </Compile>
