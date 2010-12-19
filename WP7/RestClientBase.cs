@@ -5,19 +5,13 @@ using Hammock;
 using Hammock.Authentication.Basic;
 using Hammock.Authentication.OAuth;
 using Hammock.Web;
+using MahApps.RESTBase.Delegates;
 
 namespace MahApps.RESTBase
 {
     public class RestClientBase 
     {
         #region Delegates
-
-        public delegate void AccessTokenCallbackDelegate(
-            RestRequest request, RestResponse response, Credentials Credentials);
-
-        public delegate void RequestUrlCallbackDelegate(RestRequest request, RestResponse response, String Url);
-
-        public delegate void VoidDelegate();
 
         #endregion
 
@@ -52,18 +46,18 @@ namespace MahApps.RESTBase
             RequestUrlCallback(request, response, String.Format("{0}{1}?{2}", OAuthBase, TokenAuthUrl, response.Content));
         }
 
-        public void BeginGetAccessToken(Uri VerifierUri, AccessTokenCallbackDelegate callback)
+        public void BeginGetAccessToken(Uri verifierUri, AccessTokenCallbackDelegate callback)
         {
             var r = new Regex("oauth_token=([^&.]*)&oauth_verifier=([^&.]*)");
-            Match match = r.Match(VerifierUri.AbsoluteUri);
+            Match match = r.Match(verifierUri.AbsoluteUri);
             BeginGetAccessToken(match.Groups[2].Value, callback);
         }
 
-        public void BeginGetAccessToken(String Verifier, AccessTokenCallbackDelegate callback)
+        public void BeginGetAccessToken(string verifier, AccessTokenCallbackDelegate callback)
         {
             AccessTokenCallback = callback;
             Credentials.Type = OAuthType.AccessToken;
-            Credentials.Verifier = Verifier.Trim();
+            Credentials.Verifier = verifier.Trim();
 
             BeginRequest(TokenAccessUrl, EndGetAccessToken);
         }
@@ -82,10 +76,10 @@ namespace MahApps.RESTBase
             AccessTokenCallback(request, response, c);
         }
 
-        public void SetOAuthToken(Credentials C)
+        public void SetOAuthToken(Credentials credentials)
         {
-            Credentials.Token = C.OAuthToken;
-            Credentials.TokenSecret = C.OAuthTokenSecret;
+            Credentials.Token = credentials.OAuthToken;
+            Credentials.TokenSecret = credentials.OAuthTokenSecret;
             Credentials.Type = OAuthType.ProtectedResource;
 
             Client = new RestClient
@@ -98,53 +92,40 @@ namespace MahApps.RESTBase
                          };
         }
 
-        public void BeginRequest(String Path, RestCallback callback)
+        public void BeginRequest(string path, RestCallback callback)
         {
-            BeginRequest(Path, null, WebMethod.Post, callback);
+            BeginRequest(path, null, WebMethod.Post, callback);
         }
 
-        public void BeginRequest(String Path, Dictionary<String, String> Parameters,  WebMethod Method,
-                                 RestCallback callback)
+        public void BeginRequest(string path, IDictionary<string, string> parameters,  WebMethod method, RestCallback callback)
         {
-            BeginRequest(Path, Parameters, null, Method, callback);
+            BeginRequest(path, parameters, null, method, callback);
         }
 
-        public void BeginRequest(String Path, Dictionary<String, String> Parameters, Dictionary<String, File> Files, WebMethod Method,
-                                 RestCallback callback)
+        public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback)
         {
             var request = new RestRequest
                               {
-                                  Path = Path,
-                                  Method = Method
+                                  Path = path,
+                                  Method = method
                               };
 
-            if (Files != null)
+            if (files != null)
             {
-                foreach (var f in Files)
+                foreach (var f in files)
                     request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath);
             }
 
             if (Credentials != null)
                 request.Credentials = Credentials;
 
-            if (Parameters != null)
-                foreach (var p in Parameters)
+            if (parameters != null)
+                foreach (var p in parameters)
                 {
                     request.AddParameter(p.Key, p.Value);
                 }
 
             Client.BeginRequest(request, callback);
-        }
-    }
-
-    public class File
-    {
-        public String FilePath;
-        public String FileName;
-        public File (String filePath, String fileName)
-        {
-            FilePath = filePath;
-            FileName = fileName;
         }
     }
 }
