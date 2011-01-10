@@ -2,9 +2,9 @@
 {
     public abstract class RestMethodsBase<T>
     {
-        public RestMethodsBase(T Context)
+        public RestMethodsBase(T context)
         {
-            this.Context = Context;
+            Context = context;
         }
 
         public T Context { get; set; }
