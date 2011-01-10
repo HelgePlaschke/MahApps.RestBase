@@ -22,13 +22,31 @@ namespace MahApps.RESTBase
         public String TokenAuthUrl = "";
         public String TokenRequestUrl = "";
         public String Version = "";
-        public IRestClient Client { get; set; }
+        
+        public IRestClient Client { get; private set; }
 
         public OAuthCredentials Credentials { get; set; }
         public BasicAuthCredentials BasicCredentials { get; set; }
 
         private AccessTokenCallbackDelegate AccessTokenCallback { get; set; }
         private RequestUrlCallbackDelegate RequestUrlCallback { get; set; }
+
+        public RestClientBase()
+        {
+            Client = new RestClient
+            {
+#if SILVERLIGHT
+                HasElevatedPermissions = true,
+#endif
+                Authority = Authority,
+                VersionPath = Version
+            };
+        }
+
+        public RestClientBase(IRestClient restClient)
+        {
+            Client = restClient;
+        }
 
         public void BeginGetRequestUrl(RequestUrlCallbackDelegate callback)
         {
@@ -81,15 +99,6 @@ namespace MahApps.RESTBase
             Credentials.Token = credentials.OAuthToken;
             Credentials.TokenSecret = credentials.OAuthTokenSecret;
             Credentials.Type = OAuthType.ProtectedResource;
-
-            Client = new RestClient
-                         {
-#if SILVERLIGHT
-                             HasElevatedPermissions = true,
-#endif
-                             Authority = Authority,
-                             VersionPath = Version
-                         };
         }
 
         public void BeginRequest(string path, RestCallback callback)
