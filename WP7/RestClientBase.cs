@@ -5,6 +5,7 @@ using Hammock;
 using Hammock.Authentication.Basic;
 using Hammock.Authentication.OAuth;
 using Hammock.Web;
+using System.IO;
 
 namespace MahApps.RESTBase
 {
@@ -118,12 +119,6 @@ namespace MahApps.RESTBase
                                   Method = Method
                               };
 
-            if (Files != null)
-            {
-                foreach (var f in Files)
-                    request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath);
-            }
-
             if (Credentials != null)
                 request.Credentials = Credentials;
 
@@ -132,6 +127,17 @@ namespace MahApps.RESTBase
                 {
                     request.AddParameter(p.Key, p.Value);
                 }
+#if !SILVERLIGHT
+
+            if (Files != null)
+                foreach (var f in Files)
+                {
+                    byte[] rawData = System.IO.File.ReadAllBytes(f.Value.FilePath);
+                    request.AddPostContent(rawData);
+                }
+            //request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath, "image/jpeg");
+#endif
+
 
             Client.BeginRequest(request, callback);
         }
