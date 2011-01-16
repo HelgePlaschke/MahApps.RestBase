@@ -34,6 +34,6 @@ _ReSharper*/
 *.[Pp]ublish.xml
 
 # Custom
-*/AssemblyInfo.cs
+*.ReSharper
 *.orig
 glob:Output\*
