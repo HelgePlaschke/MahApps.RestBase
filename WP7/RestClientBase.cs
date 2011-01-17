@@ -99,6 +99,15 @@ namespace MahApps.RESTBase
             Credentials.Token = credentials.OAuthToken;
             Credentials.TokenSecret = credentials.OAuthTokenSecret;
             Credentials.Type = OAuthType.ProtectedResource;
+
+            Client = new RestClient
+                         {
+#if SILVERLIGHT
+                             HasElevatedPermissions = true,
+#endif
+                             Authority = Authority,
+                             VersionPath = Version
+                         };
         }
 
         public void BeginRequest(string path, RestCallback callback)
