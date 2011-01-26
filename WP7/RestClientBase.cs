@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text.RegularExpressions;
 using Hammock;
 using Hammock.Authentication.Basic;
@@ -22,7 +23,7 @@ namespace MahApps.RESTBase
         public String TokenAuthUrl = "";
         public String TokenRequestUrl = "";
         public String Version = "";
-        
+
         public IRestClient Client { get; private set; }
 
         public OAuthCredentials Credentials { get; set; }
@@ -39,7 +40,7 @@ namespace MahApps.RESTBase
                 HasElevatedPermissions = true,
 #endif
                 Authority = Authority,
-                VersionPath = Version
+                VersionPath = Version,
             };
         }
 
@@ -96,9 +97,25 @@ namespace MahApps.RESTBase
 
         public void SetOAuthToken(Credentials credentials)
         {
-            Credentials.Token = credentials.OAuthToken;
-            Credentials.TokenSecret = credentials.OAuthTokenSecret;
-            Credentials.Type = OAuthType.ProtectedResource;
+            var consumerKey = Credentials.ConsumerKey;
+            var consumerSecret = Credentials.ConsumerSecret;
+
+            Credentials = new OAuthCredentials()
+            {
+                Token = credentials.OAuthToken,
+                TokenSecret = credentials.OAuthTokenSecret,
+                Type = OAuthType.ProtectedResource,
+                ConsumerKey = consumerKey,
+                ConsumerSecret = consumerSecret,
+            };
+            Client = new RestClient
+                         {
+#if SILVERLIGHT
+                             HasElevatedPermissions = true,
+#endif
+                             Authority = Authority,
+                             VersionPath = Version,
+                         };
         }
 
         public void BeginRequest(string path, RestCallback callback)
@@ -106,23 +123,21 @@ namespace MahApps.RESTBase
             BeginRequest(path, null, WebMethod.Post, callback);
         }
 
-        public void BeginRequest(string path, RestCallback callback, object userState)
-        {
-            BeginRequest(path, null, WebMethod.Post, callback);
-        }
-
-        public void BeginRequest(string path, IDictionary<string, string> parameters,  WebMethod method, RestCallback callback)
+        public void BeginRequest(string path, IDictionary<string, string> parameters, WebMethod method, RestCallback callback)
         {
             BeginRequest(path, parameters, null, method, callback);
         }
 
-        public void BeginRequest(string path, IDictionary<string, string> parameters, WebMethod method, RestCallback callback, object userState)
-        {
-            BeginRequest(path, parameters, null, method, callback, userState);
-        }
-
         public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback)
         {
+
+#if !SILVERLIGHT
+            WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
+            WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
+            HttpWebRequest.DefaultWebProxy = HttpWebRequest.GetSystemWebProxy();
+            HttpWebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
+#endif
+
             var request = new RestRequest
                               {
                                   Path = path,
@@ -154,46 +169,11 @@ namespace MahApps.RESTBase
             //request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath, "image/jpeg");
 #endif
 
-
-            Client.BeginRequest(request, callback);
-        }
-
-
-        public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback, object state)
-        {
-            var request = new RestRequest
+            Client.BeginRequest(request, (req, res, obj) =>
             {
-                Path = path,
-                Method = method
-            };
-
-            if (files != null)
-            {
-                foreach (var f in files)
-                    request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath);
-            }
-
-            if (Credentials != null)
-                request.Credentials = Credentials;
-
-            if (parameters != null)
-                foreach (var p in parameters)
-                {
-                    request.AddParameter(p.Key, p.Value);
-                }
-#if !SILVERLIGHT
-
-            if (files != null)
-                foreach (var f in files)
-                {
-                    byte[] rawData = System.IO.File.ReadAllBytes(f.Value.FilePath);
-                    request.AddPostContent(rawData);
-                }
-            //request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath, "image/jpeg");
-#endif
-
-
-            Client.BeginRequest(request, callback);
+                if (callback != null)
+                    callback(req, res, obj);
+            });
         }
     }
 }
