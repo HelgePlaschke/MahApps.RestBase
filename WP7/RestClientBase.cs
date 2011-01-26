@@ -106,9 +106,19 @@ namespace MahApps.RESTBase
             BeginRequest(path, null, WebMethod.Post, callback);
         }
 
+        public void BeginRequest(string path, RestCallback callback, object userState)
+        {
+            BeginRequest(path, null, WebMethod.Post, callback);
+        }
+
         public void BeginRequest(string path, IDictionary<string, string> parameters,  WebMethod method, RestCallback callback)
         {
             BeginRequest(path, parameters, null, method, callback);
+        }
+
+        public void BeginRequest(string path, IDictionary<string, string> parameters, WebMethod method, RestCallback callback, object userState)
+        {
+            BeginRequest(path, parameters, null, method, callback, userState);
         }
 
         public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback)
@@ -118,6 +128,44 @@ namespace MahApps.RESTBase
                                   Path = path,
                                   Method = method
                               };
+
+            if (files != null)
+            {
+                foreach (var f in files)
+                    request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath);
+            }
+
+            if (Credentials != null)
+                request.Credentials = Credentials;
+
+            if (parameters != null)
+                foreach (var p in parameters)
+                {
+                    request.AddParameter(p.Key, p.Value);
+                }
+#if !SILVERLIGHT
+
+            if (files != null)
+                foreach (var f in files)
+                {
+                    byte[] rawData = System.IO.File.ReadAllBytes(f.Value.FilePath);
+                    request.AddPostContent(rawData);
+                }
+            //request.AddFile(f.Key, f.Value.FileName, f.Value.FilePath, "image/jpeg");
+#endif
+
+
+            Client.BeginRequest(request, callback);
+        }
+
+
+        public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback, object state)
+        {
+            var request = new RestRequest
+            {
+                Path = path,
+                Method = method
+            };
 
             if (files != null)
             {
