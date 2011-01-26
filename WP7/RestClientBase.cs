@@ -232,7 +232,7 @@ namespace MahApps.RESTBase
             {
                 if (callback != null)
                     callback(req, res, obj);
-            });
+            }, userState);
         }
     }
 }
