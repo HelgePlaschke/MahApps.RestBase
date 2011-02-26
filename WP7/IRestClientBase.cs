@@ -12,9 +12,10 @@ namespace MahApps.RESTBase
         void BeginGetAccessToken(Uri verifierUri, AccessTokenCallbackDelegate callback);
         void BeginGetAccessToken(string verifier, AccessTokenCallbackDelegate callback);
         void BeginRequest(string path, RestCallback callback);
+        void BeginRequest(string path, RestCallback callback, object userState);
         void BeginRequest(string path, IDictionary<string, string> parameters,  WebMethod method, RestCallback callback);
+        void BeginRequest(string path, IDictionary<string, string> parameters, WebMethod method, RestCallback callback, object userState);
         void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback);
-
-        void EndGetAccessToken(RestRequest request, RestResponse response, object userState,AccessTokenCallbackDelegate callback);
+		void EndGetAccessToken(RestRequest request, RestResponse response, object userState,AccessTokenCallbackDelegate callback);
     }
 }
