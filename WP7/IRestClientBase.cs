@@ -14,5 +14,7 @@ namespace MahApps.RESTBase
         void BeginRequest(string path, RestCallback callback);
         void BeginRequest(string path, IDictionary<string, string> parameters,  WebMethod method, RestCallback callback);
         void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback);
+
+        void EndGetAccessToken(RestRequest request, RestResponse response, object userState,AccessTokenCallbackDelegate callback);
     }
 }

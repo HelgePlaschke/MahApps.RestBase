@@ -78,10 +78,10 @@ namespace MahApps.RESTBase
             Credentials.Type = OAuthType.AccessToken;
             Credentials.Verifier = verifier.Trim();
 
-            BeginRequest(TokenAccessUrl, EndGetAccessToken);
+            BeginRequest(TokenAccessUrl, (req, res, state) => EndGetAccessToken(req, res, state, callback));
         }
 
-        private void EndGetAccessToken(RestRequest request, RestResponse response, object userState)
+        public void EndGetAccessToken(RestRequest request, RestResponse response, object userState, AccessTokenCallbackDelegate callback)
         {
             var r = new Regex("oauth_token=([^&.]*)&oauth_token_secret=([^&.]*)");
             Match match = r.Match(response.Content);
@@ -92,7 +92,8 @@ namespace MahApps.RESTBase
                         };
             SetOAuthToken(c);
 
-            AccessTokenCallback(request, response, c);
+            if (callback != null)
+                callback(request, response, c);
         }
 
         public void SetOAuthToken(Credentials credentials)
