@@ -24,7 +24,7 @@ namespace MahApps.RESTBase
         public String TokenRequestUrl = "";
         public String Version = "";
 
-        public IRestClient Client { get; private set; }
+        public IRestClient Client { get; set; }
 
         public OAuthCredentials Credentials { get; set; }
         public BasicAuthCredentials BasicCredentials { get; set; }
@@ -67,6 +67,11 @@ namespace MahApps.RESTBase
 
         public void BeginGetAccessToken(Uri verifierUri, AccessTokenCallbackDelegate callback)
         {
+            if (verifierUri == null || string.IsNullOrEmpty(verifierUri.AbsoluteUri))
+            {
+                BeginGetAccessToken(string.Empty, callback);
+                return;
+            }
             var r = new Regex("oauth_token=([^&.]*)&oauth_verifier=([^&.]*)");
             Match match = r.Match(verifierUri.AbsoluteUri);
             BeginGetAccessToken(match.Groups[2].Value, callback);
@@ -83,6 +88,11 @@ namespace MahApps.RESTBase
 
         public void EndGetAccessToken(RestRequest request, RestResponse response, object userState, AccessTokenCallbackDelegate callback)
         {
+            if (string.IsNullOrEmpty(response.Content))
+            {
+                callback(request, response, null);
+                return;
+            }
             var r = new Regex("oauth_token=([^&.]*)&oauth_token_secret=([^&.]*)");
             Match match = r.Match(response.Content);
             var c = new Credentials
