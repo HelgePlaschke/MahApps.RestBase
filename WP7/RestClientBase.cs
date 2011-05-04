@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.RegularExpressions;
 using Hammock;
+using Hammock.Authentication;
 using Hammock.Authentication.Basic;
 using Hammock.Authentication.OAuth;
 using Hammock.Web;
@@ -26,8 +27,7 @@ namespace MahApps.RESTBase
 
         public IRestClient Client { get; set; }
 
-        public OAuthCredentials Credentials { get; set; }
-        public BasicAuthCredentials BasicCredentials { get; set; }
+        public IWebCredentials Credentials { get; set; }
 
         private AccessTokenCallbackDelegate AccessTokenCallback { get; set; }
         private RequestUrlCallbackDelegate RequestUrlCallback { get; set; }
@@ -59,8 +59,8 @@ namespace MahApps.RESTBase
         {
             var r = new Regex("oauth_token=([^&.]*)&oauth_token_secret=([^&.]*)");
             Match match = r.Match(response.Content);
-            (Credentials).Token = match.Groups[1].Value;
-            (Credentials).TokenSecret = match.Groups[2].Value;
+            ((OAuthCredentials)Credentials).Token = match.Groups[1].Value;
+            ((OAuthCredentials)Credentials).TokenSecret = match.Groups[2].Value;
 
             RequestUrlCallback(request, response, String.Format("{0}{1}?{2}", OAuthBase, TokenAuthUrl, response.Content));
         }
@@ -80,8 +80,8 @@ namespace MahApps.RESTBase
         public void BeginGetAccessToken(string verifier, AccessTokenCallbackDelegate callback)
         {
             AccessTokenCallback = callback;
-            Credentials.Type = OAuthType.AccessToken;
-            Credentials.Verifier = verifier.Trim();
+            ((OAuthCredentials)Credentials).Type = OAuthType.AccessToken;
+            ((OAuthCredentials)Credentials).Verifier = verifier.Trim();
 
             BeginRequest(TokenAccessUrl, (req, res, state) => EndGetAccessToken(req, res, state, callback));
         }
@@ -108,8 +108,8 @@ namespace MahApps.RESTBase
 
         public void SetOAuthToken(Credentials credentials)
         {
-            var consumerKey = Credentials.ConsumerKey;
-            var consumerSecret = Credentials.ConsumerSecret;
+            var consumerKey = ((OAuthCredentials)Credentials).ConsumerKey;
+            var consumerSecret = ((OAuthCredentials)Credentials).ConsumerSecret;
 
             Credentials = new OAuthCredentials()
             {
@@ -151,14 +151,6 @@ namespace MahApps.RESTBase
 
         public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback)
         {
-
-#if !SILVERLIGHT
-            WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
-            WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebRequest.DefaultWebProxy = HttpWebRequest.GetSystemWebProxy();
-            HttpWebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
-#endif
-
             var request = new RestRequest
                               {
                                   Path = path,
@@ -200,14 +192,6 @@ namespace MahApps.RESTBase
 
         public void BeginRequest(string path, IDictionary<string, string> parameters, IDictionary<string, File> files, WebMethod method, RestCallback callback, object userState)
         {
-
-#if !SILVERLIGHT
-            WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
-            WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
-            HttpWebRequest.DefaultWebProxy = HttpWebRequest.GetSystemWebProxy();
-            HttpWebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultCredentials;
-#endif
-
             var request = new RestRequest
             {
                 Path = path,
