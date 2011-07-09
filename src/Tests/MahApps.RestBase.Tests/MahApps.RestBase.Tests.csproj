@@ -32,19 +32,19 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hammock.ClientProfile">
-      <HintPath>..\..\Lib\NET4\Hammock.ClientProfile.dll</HintPath>
+      <HintPath>..\..\..\lib\NET4\Hammock.ClientProfile.dll</HintPath>
     </Reference>
     <Reference Include="NSubstitute">
-      <HintPath>..\..\packages\NSubstitute.1.0.0.0\lib\35\NSubstitute.dll</HintPath>
+      <HintPath>..\..\..\packages\NSubstitute.1.0.0.0\lib\35\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.mocks">
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.2.5.10.11092\lib\nunit.mocks.dll</HintPath>
     </Reference>
     <Reference Include="pnunit.framework">
-      <HintPath>..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
+      <HintPath>..\..\..\packages\NUnit.2.5.10.11092\lib\pnunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
