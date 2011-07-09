@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>MahApps.RESTBase</id>
+    <version>1.0</version>
+    <authors>Paul Jenkins, Brendan Forster</authors>
+    <owners>MahApps</owners>
+    <licenseUrl>http://mahappsrestbase.codeplex.com/license</licenseUrl>
+    <projectUrl>http://mahappsrestbase.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Base library for MahApps social network wrappers.</description>
+    <tags>Twitter WP7 ClientProfile</tags>
+    <!--<dependencies>
+      <dependency id="SampleDependency" version="1.0" />
+    </dependencies>-->
+  </metadata>
+  	<files>
+		<file src="..\NET40\bin\Release\*.dll" target="lib\net40" />
+		<file src="..\WP7\bin\Release\*.dll" target="lib\sl3-wp" />
+		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl30" />-->
+		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl4-WindowsPhone71" />-->
+		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl40" />-->
+		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl50" />-->
+	</files>
+</package>
