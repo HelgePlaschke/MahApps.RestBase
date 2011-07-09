@@ -34,8 +34,9 @@
     <Reference Include="Hammock.ClientProfile">
       <HintPath>..\..\..\lib\NET4\Hammock.ClientProfile.dll</HintPath>
     </Reference>
-    <Reference Include="NSubstitute">
-      <HintPath>..\..\..\packages\NSubstitute.1.0.0.0\lib\35\NSubstitute.dll</HintPath>
+    <Reference Include="NSubstitute, Version=1.1.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\NSubstitute.1.1.0.0\lib\35\NSubstitute.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
@@ -59,7 +60,9 @@
     <Compile Include="RestClientBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NET4\MahApps.RESTBase.NET4.csproj">
