@@ -15,8 +15,8 @@
     </dependencies>-->
   </metadata>
   	<files>
-		<file src="..\NET40\bin\Release\*.dll" target="lib\net40" />
-		<file src="..\WP7\bin\Release\*.dll" target="lib\sl3-wp" />
+		<file src="..\src\NET4\bin\Release\*.dll" target="lib\net40" />
+		<file src="..\src\WP7\bin\Release\*.dll" target="lib\sl3-wp" />
 		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl30" />-->
 		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl4-WindowsPhone71" />-->
 		<!--<file src="..\WP7\bin\Release\*.dll" target="lib\sl40" />-->
